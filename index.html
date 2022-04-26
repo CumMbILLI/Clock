@@ -11,7 +11,7 @@
     <title>Clock tik-tak</title>
 </head>
 <body>
-    <button type="button" class="clock__but" id="clock__but">Timer</button>
+    <button type="button" class="clock__but" id="clock__but">stopwatch</button>
     <div class="clock__flex">
         <div class="clock">
             <div class="lines">
@@ -23,9 +23,9 @@
             <div class="clock__face">
                 <div class="clock__border">
                     <div class="clock__time" id="time">
-                        <input type="number" class="hour__input">:
-                        <input type="number" class="min__input">:
-                        <input type="number" class="sec__input">
+                        <input type="number" class="hour__input" max="24" min="0" onkeypress="return false">:
+                        <input type="number" class="min__input" max="60" min="0" onkeypress="return false">:
+                        <input type="number" class="sec__input" max="60" min="0" onkeypress="return false">
                     </div>
                 </div>
             </div>

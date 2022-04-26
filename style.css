@@ -115,9 +115,8 @@ body{
 ======================================================*/
 
 .clock__but{
-    
-    width: 150px;
-    height: 40px;
+    cursor: pointer;
+    padding: 10px;
     margin-top: 140px;
     margin-left:140px;
     font-family: 'Orbitron', sans-serif;
@@ -152,3 +151,16 @@ body{
     justify-content: space-between;
     opacity: 1;
 }
+
+.clock__but:disabled{
+    cursor: default;
+    border: 3px solid rgb(78, 78, 78);
+    color: rgb(78, 78, 78);
+    background-color: transparent;
+    opacity: .6;
+}
+
+    .clock__but:disabled:hover{
+        background-color: transparent;
+        color: rgb(78, 78, 78);
+    }
