@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock tik-tak</title>
+</head>
+<body>
+    <button type="button" class="clock__but" id="clock__but">Timer</button>
+    <div class="clock__flex">
+        <div class="clock">
+            <div class="lines">
+                <div class="circle hour"></div>
+                <div class="circle min"></div>
+                <div class="circle sec"></div>
+            </div>
+
+            <div class="clock__face">
+                <div class="clock__border">
+                    <div class="clock__time" id="time">
+                        <input type="number" class="hour__input">:
+                        <input type="number" class="min__input">:
+                        <input type="number" class="sec__input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="buttons__timer">
+            <button type="button" class="start clock__but buttons">Start</button>
+            <button type="button" class="clear clock__but buttons">Clear</button>
+            <button type="button" class="stop clock__but buttons">Stop</button>
+        </div>
+    </div>
+   
+
+    <script src="./script.js"></script>
+</body>
+</html>
