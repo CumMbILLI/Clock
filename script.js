@@ -1,7 +1,7 @@
 const DEG__ON__SEC__MIN = 6
 const DEG__HOUR = 360 / 12
+const ZERO__STRING = "0"
 
-const clockTime = document.getElementById('time')
 const clockBut = document.getElementById('clock__but')
 
 const style = document.createElement('style')
@@ -17,52 +17,123 @@ const clearBut = document.getElementsByClassName('clear')[0]
 const stopBut = document.getElementsByClassName('stop')[0]
 
 blockBut.style = "display: none;"
-clockBut.addEventListener("click", timer)
 
-let hour
-let min
-let sec
+let clockInterval 
 
-let startTime = setInterval(() => {rotateArrow()}, 1000)
-
-const rotateArrow = () => {
+const getLocalTime = () => {
     const date = new Date()
+    const  hourLocal =  date.getHours() 
+    const  minLocal = date.getMinutes()
+    const  secLocal = date.getSeconds()
 
-    hour = date.getHours()
-    min = date.getMinutes()
-    sec = date.getSeconds()
-    const zero = "0"
+    return {secLocal,minLocal,hourLocal}
+}
 
-    inputHour.value = hour<10?zero+hour:hour
-    inputMin.value = min<10?zero+min:min
-    inputSec.value = sec<10?zero+sec:sec
+const insertInputValue = (seconds,minuts, hours) =>{
+    inputSec.value = seconds<10?ZERO__STRING+seconds:seconds
+    inputMin.value = minuts<10?ZERO__STRING+minuts:minuts
+    inputHour.value = hours<10?ZERO__STRING+hours:hours
+}
 
+const rotateArrow = (second,minut,houru) => {
     style.innerHTML = `
-    .circle.hour{transform: rotate(${DEG__HOUR*hour-90}deg);}
-    .circle.min{transform: rotate(${DEG__ON__SEC__MIN*min-90}deg);}
-    .circle.sec{transform: rotate(${DEG__ON__SEC__MIN*sec-90}deg);}
+    .circle.hour{transform: rotate(${DEG__HOUR*houru-90}deg);}
+    .circle.min{transform: rotate(${DEG__ON__SEC__MIN*minut-90}deg);}
+    .circle.sec{transform: rotate(${DEG__ON__SEC__MIN*second-90}deg);}
     `
 }
 
-function timer(){
-   clockBut.classList.toggle('_active')
+const startClock = (second,minut,hour) => {
+    clockInterval = setInterval(() => {
+        second += 1
+        if(second == 60){
+            second = 0
+            minut += 1
+        }
+        if(minut == 60){
+            minut = 0
+            hour += 1
+        }
+        if(hour == 24){
+            hour = 0
+        }
 
-    if(clockBut.classList.contains('_active'))
-    {
-        clearInterval(startTime)
+        insertInputValue(second,minut,hour)
+        rotateArrow(second, minut, hour)
+    },1000) 
+}
 
-        inputHour.value = 0
-        inputMin.value = 0
-        inputSec.value = 0
+const {secLocal,minLocal,hourLocal} = getLocalTime()
+startClock(secLocal,minLocal,hourLocal)
+
+const timer = () =>{
+    clockBut.classList.toggle('_active')
+    clearInterval(clockInterval)
+
+     if(clockBut.classList.contains('_active'))
+     {
+        rotateArrow(0,0,0)
+        insertInputValue(0,0,0)
 
         blockBut.style = 'display: flex;'
-    }
-    else{
+     }
+     else{
         blockBut.style = 'display: none;'
-        startTime = setInterval(() => {rotateArrow()},1000)
+        let {secLocal,minLocal,hourLocal} = getLocalTime()
+
+        startClock(secLocal,minLocal,hourLocal)
     }
+ }
+ 
+const startTimer = () => {
+    const second = +inputSec.value
+    const minut = +inputMin.value
+    const hour = +inputHour.value
+    clockBut.disabled = true
+
+    startClock(second, minut, hour)
 }
 
-function counterTime() {
-    
+const clearTimer = () => {
+    clearInterval(clockInterval)
+    rotateArrow(0, 0, 0)
+    insertInputValue(0,0,0)
+
+    clockBut.disabled = false
 }
+
+const stopTimer = () => {
+    clockBut.disabled = false
+    clearInterval(clockInterval)
+}
+
+const changeInput = () => {
+    hour = +inputHour.value
+    min = +inputMin.value
+    sec = +inputSec.value
+
+    rotateArrow(sec, min, hour)
+}
+
+const focusInput = () => {
+    clearInterval(clockInterval)
+}
+
+const blurInput = () => {
+    const second = +inputSec.value
+    const minut = +inputMin.value
+    const hour = +inputHour.value
+    
+    startClock(second, minut, hour)
+}
+
+clockBut.addEventListener("click", timer)
+startBut.addEventListener("click", startTimer)
+clearBut.addEventListener("click", clearTimer)
+stopBut.addEventListener("click", stopTimer)
+
+Array.from([inputSec,inputMin,inputHour]).forEach(elem => {
+    elem.addEventListener("change",changeInput)
+    elem.addEventListener("focus",focusInput)
+    elem.addEventListener("blur",blurInput)
+});
