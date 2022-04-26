@@ -62,3 +62,7 @@ function timer(){
         startTime = setInterval(() => {rotateArrow()},1000)
     }
 }
+
+function counterTime() {
+    
+}
